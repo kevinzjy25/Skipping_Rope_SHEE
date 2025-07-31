@@ -1,4 +1,4 @@
-# Install script for directory: E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl_porting
+# Install script for directory: G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl_porting
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

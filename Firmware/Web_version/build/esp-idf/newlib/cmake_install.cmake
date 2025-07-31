@@ -39,6 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/newlib/port/cmake_install.cmake")
+  include("G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/newlib/port/cmake_install.cmake")
 endif()
 
