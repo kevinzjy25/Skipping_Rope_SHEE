@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "Web_version",
-    "project_version":    "ec5f8e4-dirty",
+    "project_version":    "cb1f2e8-dirty",
     "project_path":       "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version",
     "idf_path":           "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf",
     "build_dir":          "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build",
