@@ -79,7 +79,6 @@ void app_main(void)
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args,&periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
-    lv_demo_stress();
     if(gpio_get_level(0) == 0){
             ESP_LOGI("main","KEY0\r\n");
         }

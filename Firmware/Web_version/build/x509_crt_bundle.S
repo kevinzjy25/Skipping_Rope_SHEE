@@ -1,4 +1,4 @@
-/* * Data converted from G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 #if !defined (__APPLE__) && !defined (__linux__)

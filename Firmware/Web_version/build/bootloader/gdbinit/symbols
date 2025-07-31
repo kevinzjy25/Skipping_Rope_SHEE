@@ -22,4 +22,4 @@ set confirm off
 set confirm on
 
 # Load application symbols
-file G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/bootloader.elf
+file E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/bootloader.elf

@@ -10,18 +10,18 @@ if(NOT EXISTS "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/boot
   file(MAKE_DIRECTORY "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/bootloader/subproject")
 endif()
 file(MAKE_DIRECTORY
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader"
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix"
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/tmp"
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp"
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src"
-  "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/tmp"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src"
+  "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
 if(cfgdir)
-  file(MAKE_DIRECTORY "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
+  file(MAKE_DIRECTORY "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp${cfgdir}") # cfgdir has leading slash
 endif()

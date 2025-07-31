@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader-complete.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader-complete.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

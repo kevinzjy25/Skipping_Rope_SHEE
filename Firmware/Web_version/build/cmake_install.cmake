@@ -1,4 +1,4 @@
-# Install script for directory: G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version
+# Install script for directory: E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/cmake_install.cmake")
+  include("E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -57,6 +57,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
