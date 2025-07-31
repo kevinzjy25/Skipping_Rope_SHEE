@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+G:/Project2025/skipping_rope/code/lvgl_test/build/CMakeFiles/bootloader
+G:/Project2025/skipping_rope/code/lvgl_test/build/CMakeFiles/bootloader.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/CMakeFiles/bootloader-complete.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+G:/Project2025/skipping_rope/code/lvgl_test/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

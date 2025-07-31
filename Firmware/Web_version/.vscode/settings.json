@@ -1,0 +1,52 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPathWin": "e:\\Program-Files\\ESP_idf_container\\v5.4.2\\esp-idf",
+  "idf.pythonInstallPath": "e:\\Program-Files\\ESP_idf_Tool\\tools\\idf-python\\3.11.2\\python.exe",
+  "idf.openOcdConfigs": [
+    "board/esp32c3-builtin.cfg"
+  ],
+  "idf.portWin": "COM12",
+  "idf.toolsPathWin": "e:\\Program-Files\\ESP_idf_Tool",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32c3"
+  },
+  "clangd.path": "e:\\Program-Files\\ESP_idf_Tool\\tools\\esp-clang\\esp-18.1.2_20240912\\esp-clang\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=e:\\Program-Files\\ESP_idf_Tool\\tools\\xtensa-esp-elf\\esp-14.2.0_20241119\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe",
+    "--compile-commands-dir=${workspaceFolder}\\build"
+  ],
+  "idf.flashType": "UART",
+  "files.associations": {
+    "numbers": "c",
+    "gpio.h": "c",
+    "lv_port_disp.h": "c",
+    "lv_demos.h": "c",
+    "random": "c",
+    "typeinfo": "c",
+    "chrono": "c",
+    "text_encoding": "c",
+    "*.editorconfig": "c",
+    "atomic": "c",
+    "compare": "c",
+    "cstdint": "c",
+    "format": "c",
+    "*.inc": "c",
+    "gpio_types.h": "c",
+    "esp_log.h": "c",
+    "array": "c",
+    "deque": "c",
+    "list": "c",
+    "string": "c",
+    "unordered_map": "c",
+    "vector": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "span": "c",
+    "regex": "c",
+    "lv_port_indev_template.h": "c",
+    "lv_port_indev.h": "c",
+    "lvgl.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "enabled"
+}
