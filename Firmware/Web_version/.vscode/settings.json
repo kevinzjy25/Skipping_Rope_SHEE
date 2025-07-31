@@ -46,7 +46,8 @@
     "regex": "c",
     "lv_port_indev_template.h": "c",
     "lv_port_indev.h": "c",
-    "lvgl.h": "c"
+    "lvgl.h": "c",
+    "stdbool.h": "c"
   },
   "C_Cpp.errorSquiggles": "enabled"
 }
