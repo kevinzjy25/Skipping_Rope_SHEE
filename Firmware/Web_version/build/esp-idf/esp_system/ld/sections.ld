@@ -1,6 +1,6 @@
 /* Automatically generated file; DO NOT EDIT */
 /* Espressif IoT Development Framework Linker Script */
-/* Generated from: E:\Project_2025\Skipping_Rope_SHEE\Firmware\Web_version\build\esp-idf\esp_system\ld\sections.ld.in */
+/* Generated from: G:\Project2025\skipping_rope\Skipping_Rope_SHEE\Firmware\Web_version\build\esp-idf\esp_system\ld\sections.ld.in */
 
 /*
 

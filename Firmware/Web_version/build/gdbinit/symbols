@@ -18,8 +18,8 @@ end
 
 # Load bootloader symbols
 set confirm off
-    add-symbol-file E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/bootloader.elf
+    add-symbol-file G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/bootloader.elf
 set confirm on
 
 # Load application symbols
-file E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/Web_version.elf
+file G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/Web_version.elf

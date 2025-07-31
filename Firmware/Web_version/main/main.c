@@ -17,7 +17,6 @@
 #include "driver/gpio.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
-#include "lv_demos.h"
 #include "lv_port_indev.h"
 
 static void event_handler(lv_event_t * e)

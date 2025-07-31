@@ -74,5 +74,5 @@ source "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/usb/Kconfig
 source "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/vfs/Kconfig"
 source "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/wear_levelling/Kconfig"
 source "E:/Program-Files/ESP_idf_container/v5.4.2/esp-idf/components/wifi_provisioning/Kconfig"
-source "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl/Kconfig"
-source "E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl_esp32_drivers/Kconfig"
+source "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl/Kconfig"
+source "G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/components/lvgl_esp32_drivers/Kconfig"
