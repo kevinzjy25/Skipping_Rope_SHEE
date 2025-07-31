@@ -18,6 +18,7 @@
 #include "lvgl.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
+#include "my_ui.h"
 
 static void event_handler(lv_event_t * e)
 {
@@ -93,7 +94,7 @@ void app_main(void)
     lv_obj_align(btnm1, LV_ALIGN_CENTER, 0, 0);
     
     lv_group_add_obj(group ,btnm1);
-    
+    my_ui();
     while (1){
         lv_task_handler();
         lv_tick_inc(10);

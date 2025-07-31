@@ -39,10 +39,10 @@ static void on_time_button_click(lv_event_t * e) {
     const char *txt = lv_label_get_text(label);
 
     // 提取前面的数字
-    sscanf(txt, "%u", &selected_time);
+    sscanf(txt, "%lu", &selected_time);
 
     // 可选：调试输出
-    printf("time: %u s\n", selected_time);
+    printf("time: %lu s\n", selected_time);
 
     // 返回主界面
     lv_scr_load_anim(main_menu, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 0, false);
@@ -143,8 +143,8 @@ static void pg1_btn1(lv_event_t * e) {
         y_offset += 24; // 下一按钮位置（20高 + 4间距）
 
         lv_obj_t *label = lv_label_create(btn);
-        lv_label_set_text_fmt(label, "%u s", i);
-        lv_obj_center(label);
+        lv_label_set_text_fmt(label, "%lu s", i);
+        lv_obj_center(label);   
         lv_obj_set_style_text_font(label, &SiYuanHeiTiGoogleBan_14, 0);
         lv_obj_set_style_text_color(label, lv_color_hex(0x464646), 0);
 
