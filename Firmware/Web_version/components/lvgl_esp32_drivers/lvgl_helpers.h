@@ -38,10 +38,10 @@ extern "C" {
 #define DISP_BUF_SIZE   CONFIG_CUSTOM_DISPLAY_BUFFER_BYTES
 #else
 #ifndef LV_HOR_RES_MAX
-#define LV_HOR_RES_MAX 80
+#define LV_HOR_RES_MAX 160
 #endif
 #ifndef LV_VER_RES_MAX
-#define LV_VER_RES_MAX 160
+#define LV_VER_RES_MAX 80
 #endif
 #if defined (CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7789)
 #define DISP_BUF_SIZE  (LV_HOR_RES_MAX * 40)
