@@ -30,6 +30,11 @@ extern "C" {
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
+extern lv_indev_t * indev_touchpad;
+extern lv_indev_t * indev_mouse;
+extern lv_indev_t * indev_keypad;
+extern lv_indev_t * indev_encoder;
+extern lv_indev_t * indev_button;
 void lv_port_indev_init(void);
 
 /**********************

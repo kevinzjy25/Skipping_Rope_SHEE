@@ -12,6 +12,7 @@
 #include "lv_port_indev.h"
 #include "lvgl.h"
 #include "driver/gpio.h"
+#include "esp_log.h"
 /*********************
  *      DEFINES
  *********************/
@@ -173,13 +174,14 @@ void lv_port_indev_init(void)
         {40, 100},  /*Button 1 -> x:40; y:100*/
     };
     lv_indev_set_button_points(indev_button, btn_points);
-}
 #endif
+}
+
 
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-
+#if 1
 /*------------------
  * Touchpad
  * -----------------*/
@@ -226,7 +228,8 @@ static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y)
     (*x) = 0;
     (*y) = 0;
 }
-
+#endif
+#if 1
 /*------------------
  * Mouse
  * -----------------*/
@@ -268,7 +271,8 @@ static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
     (*x) = 0;
     (*y) = 0;
 }
-
+#endif
+#if 1
 /*------------------
  * Keypad
  * -----------------*/
@@ -277,7 +281,7 @@ static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
 static void keypad_init(void)
 {
     /*Your code comes here*/
-    gpio_mode_set();
+    
 }
 
 /*Will be called by the library to read the mouse*/
@@ -325,10 +329,14 @@ static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 static uint32_t keypad_get_key(void)
 {
     /*Your code comes here*/
-
+    if(gpio_get_level(20) == 1){
+        ESP_LOGI("main","KEY20\r\n");
+        return 3;
+    }//需增加陀螺仪上下甩动
     return 0;
 }
-
+#endif
+#if 1
 /*------------------
  * Encoder
  * -----------------*/
@@ -355,7 +363,8 @@ static void encoder_handler(void)
     encoder_diff += 0;
     encoder_state = LV_INDEV_STATE_REL;
 }
-
+#endif
+#if 1
 /*------------------
  * Button
  * -----------------*/
@@ -412,9 +421,10 @@ static bool button_is_pressed(uint8_t id)
 
     return false;
 }
-
+#endif
 #else /*Enable this file at the top*/
 
 /*This dummy typedef exists purely to silence -Wpedantic.*/
 typedef int keep_pedantic_happy;
 #endif
+
