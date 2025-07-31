@@ -1,0 +1,5 @@
+{
+    "idf.espIdfPathWin": "e:\\Program-Files\\ESP_idf_container\\v5.4.2\\esp-idf",
+    "idf.toolsPathWin": "e:\\Program-Files\\ESP_idf_Tool",
+    "idf.pythonInstallPath": "e:\\Program-Files\\ESP_idf_Tool\\tools\\idf-python\\3.11.2\\python.exe"
+}
