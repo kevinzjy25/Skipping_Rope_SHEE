@@ -47,7 +47,13 @@
     "lv_port_indev_template.h": "c",
     "lv_port_indev.h": "c",
     "lvgl.h": "c",
-    "stdbool.h": "c"
+    "stdbool.h": "c",
+    "event_groups.h": "c",
+    "esp_wifi.h": "c",
+    "esp_netif.h": "c",
+    "esp_mac.h": "c",
+    "esp_event.h": "c",
+    "freertos.h": "c"
   },
   "C_Cpp.errorSquiggles": "enabled"
 }

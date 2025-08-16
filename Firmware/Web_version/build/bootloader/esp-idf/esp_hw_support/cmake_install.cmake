@@ -39,11 +39,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/esp-idf/esp_hw_support/port/esp32c3/cmake_install.cmake")
+  include("G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/esp-idf/esp_hw_support/port/esp32c3/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/esp-idf/esp_hw_support/lowpower/cmake_install.cmake")
+  include("G:/Project2025/skipping_rope/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader/esp-idf/esp_hw_support/lowpower/cmake_install.cmake")
 endif()
 
