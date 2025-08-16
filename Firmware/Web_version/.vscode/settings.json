@@ -53,7 +53,12 @@
     "esp_netif.h": "c",
     "esp_mac.h": "c",
     "esp_event.h": "c",
-    "freertos.h": "c"
+    "freertos.h": "c",
+    "esp_flash.h": "c",
+    "esp_smartconfig.h": "c",
+    "nvs_flash.h": "c",
+    "task.h": "c",
+    "stdio.h": "c"
   },
   "C_Cpp.errorSquiggles": "enabled"
 }

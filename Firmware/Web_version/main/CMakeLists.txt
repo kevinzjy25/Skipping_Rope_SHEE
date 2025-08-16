@@ -3,4 +3,6 @@ idf_component_register(SRCS "SiYuanHeiTiGoogleBan_16.c" "SiYuanHeiTiGoogleBan_68
                     INCLUDE_DIRS ""
                     REQUIRES lvgl
                              lvgl_porting
-                             esp_wifi)
+                             esp_wifi
+                             nvs_flash
+                             wpa_supplicant)
