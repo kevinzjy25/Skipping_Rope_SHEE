@@ -8,6 +8,7 @@
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -162,7 +163,7 @@ void pin_setup(void){
     {
         .intr_type =GPIO_INTR_DISABLE,
         .mode = GPIO_MODE_INPUT,
-        .pin_bit_mask =(1ULL << GPIO_NUM_0),
+        .pin_bit_mask =(1ULL << GPIO_NUM_5)|(1ULL << GPIO_NUM_4)|(1ULL << GPIO_NUM_8),
         .pull_down_en=GPIO_PULLDOWN_DISABLE,
         .pull_up_en =GPIO_PULLUP_ENABLE
     };
@@ -177,18 +178,15 @@ void pin_setup(void){
     gpio_config(&pGPIOConfig);//物理按键
     gpio_config(&pGPIOConfig_hall);//霍尔开关1
     gpio_config(&pGPIOConfig_motor);//震动马达
-    //pGPIOConfig.pin_bit_mask =(1ULL << GPIO_NUM_20);//物理按键
-    //pGPIOConfig_hall.pin_bit_mask =(1ULL << GPIO_NUM_0);//霍尔开关1
-    pGPIOConfig_hall.pin_bit_mask =(1ULL << GPIO_NUM_1);//霍尔开关2
-    pGPIOConfig_hall.pin_bit_mask =(1ULL << GPIO_NUM_2);//霍尔开关3
-    //pGPIOConfig_motor.pin_bit_mask =(1ULL << GPIO_NUM_9);//震动马达
 }
+
 void app_main(void)
 {
+    int count = 0;
     // 初始化 NVS（必需的，因为Wi-Fi配置存储在NVS中）
-    ESP_ERROR_CHECK(nvs_flash_init());
+    //ESP_ERROR_CHECK(nvs_flash_init());
     // 初始化 Wi-Fi
-    initialise_wifi();
+    //initialise_wifi();
     //lvgl初始化
     lv_init();
     lv_port_disp_init();
@@ -204,18 +202,22 @@ void app_main(void)
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args,&periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
-    //按键测试
-    if(gpio_get_level(0) == 0){
-            ESP_LOGI("main","KEY0\r\n");
-        }
-        if(gpio_get_level(1) == 0){
-            ESP_LOGI("main","KEY1\r\n");
-        }
     my_ui();
-    
     while (1){
         lv_task_handler();
         lv_tick_inc(10);
-        vTaskDelay(pdMS_TO_TICKS(10));
+        
+        if(gpio_get_level(5) == 0){
+            ESP_LOGI("main","KEY1\r\n");
+        }
+        else if(gpio_get_level(8) == 0){
+            ESP_LOGI("main","KEY2\r\n");
+        }
+        else if(gpio_get_level(20) == 1){
+            count++;
+            show_number(lbl_cnt, count);
+            usleep(500000);
+        }
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }

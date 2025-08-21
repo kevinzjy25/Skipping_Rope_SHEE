@@ -1,5 +1,6 @@
 #include "my_ui.h"
 #include "lvgl.h"
+#include "driver/gpio.h"
 #include <stdio.h>
 #include <unistd.h>
 extern const lv_font_t SiYuanHeiTiGoogleBan_14;
@@ -13,9 +14,11 @@ LV_FONT_DECLARE(SiYuanHeiTiGoogleBan_16);
 static void pg1_btn1(lv_event_t * e);
 static void pg1_btn2(lv_event_t * e);
 static void pg1_btn3(lv_event_t * e);
-static void menu(lv_event_t * e);
+//static void menu(lv_event_t * e);
 static void exm_md_appear(lv_event_t * e);
 lv_obj_t *main_menu; // 声明主菜单
+lv_obj_t *_menu;
+lv_obj_t *lbl_cnt;
 lv_obj_t *lbl_md; // 声明标签
 lv_obj_t *lbl_ssid;
 // 新增判断函数
@@ -30,7 +33,7 @@ static void show_menu_cb(lv_event_t * e) {
     if (is_exam_mode_active == 1) {
         return;
     }
-    menu(e);
+    //menu(e);
 }
 
 static void on_time_button_click(lv_event_t * e) {
@@ -48,11 +51,19 @@ static void on_time_button_click(lv_event_t * e) {
     lv_scr_load_anim(main_menu, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 500, 0, false);
 }
 
+void show_number(lv_obj_t *lbl, int value)//数位补足函数
+{
+    if (value < 0) value = 0;
+    if (value > 9999) value = 9999;
+
+    lv_label_set_text_fmt(lbl, "%04d", value);
+}
+
 void my_ui(void){
     main_menu = lv_scr_act();//设为起始页
     lv_obj_set_style_bg_color(main_menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
 
-    lv_obj_t *lbl_cnt = lv_label_create(main_menu);//创建标签
+    lbl_cnt = lv_label_create(main_menu);//创建标签
     lv_label_set_text(lbl_cnt, "0000");
     lv_obj_set_style_text_color(lbl_cnt, lv_color_hex(0xfbfbfb), 0);
     lv_obj_set_style_text_font(lbl_cnt, &SiYuanHeiTiGoogleBan_68, 0);
@@ -67,15 +78,14 @@ void my_ui(void){
     lv_obj_set_style_text_font(lbl_md, &SiYuanHeiTiGoogleBan_16, 0);
     lv_obj_align(lbl_md, LV_ALIGN_BOTTOM_LEFT, 0, 0);
     lv_obj_add_flag(main_menu, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_event_cb(main_menu, show_menu_cb, LV_EVENT_CLICKED, NULL);
-
+    
 }
-static void menu(lv_event_t * e) {
+/*static void menu(lv_event_t * e) {
     printf("menu\n");
-    lv_obj_t *menu = lv_obj_create(NULL);//创建标签
-    lv_obj_set_style_bg_color(menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
+    _menu = lv_obj_create(NULL);//创建标签
+    lv_obj_set_style_bg_color(_menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
 
-    lv_obj_t *btn1 = lv_label_create(menu);//创建按钮1
+    lv_obj_t *btn1 = lv_label_create(_menu);//创建按钮1
     lv_obj_set_size(btn1, 100, 20);
     lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -25);
     lv_obj_set_style_bg_color(btn1, lv_color_hex(0xCCCCCC), 0);
@@ -88,7 +98,7 @@ static void menu(lv_event_t * e) {
     lv_obj_set_style_text_font(lbl1, &SiYuanHeiTiGoogleBan_14, 0);
     lv_obj_set_style_text_color(lbl1, lv_color_hex(0x464646), 0);
 
-    lv_obj_t *btn2 = lv_label_create(menu);//创建按钮2
+    lv_obj_t *btn2 = lv_label_create(_menu);//创建按钮2
     lv_obj_set_size(btn2, 100, 20);
     lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_bg_color(btn2, lv_color_hex(0xCCCCCC), 0);
@@ -101,7 +111,7 @@ static void menu(lv_event_t * e) {
     lv_obj_set_style_text_font(lbl2, &SiYuanHeiTiGoogleBan_14, 0);
     lv_obj_set_style_text_color(lbl2, lv_color_hex(0x464646), 0);
 
-    lv_obj_t *btn3 = lv_label_create(menu);//创建按钮3
+    lv_obj_t *btn3 = lv_label_create(_menu);//创建按钮3
     lv_obj_set_size(btn3, 100, 20);
     lv_obj_align(btn3, LV_ALIGN_CENTER, 0, 25);
     lv_obj_set_style_bg_color(btn3, lv_color_hex(0xCCCCCC), 0);
@@ -122,7 +132,61 @@ static void menu(lv_event_t * e) {
     lv_obj_add_event_cb(lbl2, pg1_btn2, LV_EVENT_CLICKED, NULL);
     lv_obj_add_event_cb(lbl3, pg1_btn3, LV_EVENT_CLICKED, NULL);
 
-    lv_scr_load_anim(menu,LV_SCR_LOAD_ANIM_OVER_BOTTOM,500,0,false);
+    lv_scr_load_anim(_menu,LV_SCR_LOAD_ANIM_OVER_BOTTOM,500,0,false);
+}*/
+void menu(void) {
+    printf("menu\n");
+    _menu = lv_obj_create(NULL);//创建标签
+    lv_obj_set_style_bg_color(_menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
+
+    lv_obj_t *btn1 = lv_label_create(_menu);//创建按钮1
+    lv_obj_set_size(btn1, 100, 20);
+    lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -25);
+    lv_obj_set_style_bg_color(btn1, lv_color_hex(0xCCCCCC), 0);
+    lv_obj_set_style_bg_opa(btn1, LV_OPA_COVER, 0); // 设置背景透明度
+    lv_obj_set_style_radius(btn1, 5, 0); // 设置圆角
+    lv_label_set_text(btn1, " ");
+    lv_obj_t *lbl1 = lv_label_create(btn1);
+    lv_label_set_text(lbl1, "设置计时");
+    lv_obj_align(lbl1, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_set_style_text_font(lbl1, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(lbl1, lv_color_hex(0x464646), 0);
+
+    lv_obj_t *btn2 = lv_label_create(_menu);//创建按钮2
+    lv_obj_set_size(btn2, 100, 20);
+    lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_bg_color(btn2, lv_color_hex(0xCCCCCC), 0);
+    lv_obj_set_style_bg_opa(btn2, LV_OPA_COVER, 0); // 设置背景透明度
+    lv_obj_set_style_radius(btn2, 5, 0); // 设置圆角
+    lv_label_set_text(btn2, " ");
+    lv_obj_t *lbl2 = lv_label_create(btn2);
+    lv_label_set_text(lbl2, "连接蓝牙");
+    lv_obj_align(lbl2, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_set_style_text_font(lbl2, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(lbl2, lv_color_hex(0x464646), 0);
+
+    lv_obj_t *btn3 = lv_label_create(_menu);//创建按钮3
+    lv_obj_set_size(btn3, 100, 20);
+    lv_obj_align(btn3, LV_ALIGN_CENTER, 0, 25);
+    lv_obj_set_style_bg_color(btn3, lv_color_hex(0xCCCCCC), 0);
+    lv_obj_set_style_bg_opa(btn3, LV_OPA_COVER, 0); // 设置背景透明度
+    lv_obj_set_style_radius(btn3, 5, 0); // 设置圆角
+    lv_label_set_text(btn3, " ");
+    lv_obj_t *lbl3 = lv_label_create(btn3);
+    lv_label_set_text(lbl3, "考试模式");
+    lv_obj_align(lbl3, LV_ALIGN_TOP_MID, 0, 0);
+    lv_obj_set_style_text_font(lbl3, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(lbl3, lv_color_hex(0x464646), 0);
+
+    lv_obj_add_flag(lbl1, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(lbl2, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(lbl3, LV_OBJ_FLAG_CLICKABLE);
+
+    lv_obj_add_event_cb(lbl1, pg1_btn1, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(lbl2, pg1_btn2, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(lbl3, pg1_btn3, LV_EVENT_CLICKED, NULL);
+
+    lv_scr_load_anim(_menu,LV_SCR_LOAD_ANIM_OVER_BOTTOM,500,0,false);
 }
 
 static void pg1_btn1(lv_event_t * e) {
@@ -160,7 +224,6 @@ static void pg1_btn2(lv_event_t * e) {
 
 
     lv_obj_t *blt_cnt_btn = lv_label_create(blt_cnt);
-    //lv_label_set_text(blt_cnt_btn, "打开蓝牙");
 
     lv_obj_set_style_radius(blt_cnt_btn, 10, 0); // 设置圆角
     lv_obj_set_style_bg_color(blt_cnt_btn, lv_color_hex(0xCCCCCC), 0); // 设置背景颜色
@@ -191,45 +254,38 @@ static void pg1_btn2(lv_event_t * e) {
 
 }
 
-
-// 模拟 Wi-Fi 名称和密码（预设）
-const char* wifi_list[] = {"ZJY_5G", "ZJY_guest", "ZJY_lab","TEST"};
-
-// 你的 pg1_btn3 函数：添加 Wi-Fi 选择页面
 static void pg1_btn3(lv_event_t* e) {
-    lv_obj_t *exm_md = lv_obj_create(NULL);
-    lv_obj_set_size(exm_md, 160, 80); // 屏幕大小
-    lv_obj_set_style_bg_color(exm_md, lv_color_hex(0x001d3d), LV_PART_MAIN);
-    lv_scr_load_anim(exm_md, LV_SCR_LOAD_ANIM_OVER_LEFT, 500, 0, false);
-
-    lv_obj_t* lbl_slt_ins = lv_label_create(exm_md);
-    lv_label_set_text(lbl_slt_ins, "请选择 Wi-Fi");
-    lv_obj_set_style_text_font(lbl_slt_ins, &SiYuanHeiTiGoogleBan_16, 0);
-    lv_obj_set_style_text_color(lbl_slt_ins, lv_color_hex(0xfbfbfb), 0);
-    lv_obj_align(lbl_slt_ins, LV_ALIGN_TOP_LEFT, 0, 0);
+    lv_obj_t * wifi_cnt = lv_obj_create(NULL);
+    lv_obj_set_style_bg_color(wifi_cnt, lv_color_hex(0x001d3d), LV_PART_MAIN);
+    lv_scr_load_anim(wifi_cnt,LV_SCR_LOAD_ANIM_OVER_LEFT,500,0,false);
 
 
-    int y_offset = 25; // 初始纵向偏移
-    for (uint32_t i = 0; i < sizeof(wifi_list) / sizeof(wifi_list[0]); i++) {
-        lv_obj_t *btn = lv_label_create(exm_md);
-        lv_obj_set_size(btn, 100, 20);
-        lv_obj_set_style_bg_color(btn, lv_color_hex(0xCCCCCC), 0);
-        lv_obj_set_style_bg_opa(btn, LV_OPA_COVER, 0); // 设置背景透明度
-        lv_obj_set_style_radius(btn, 4, 0);
-        lv_label_set_text(btn, " ");
-        lv_obj_align(btn, LV_ALIGN_TOP_MID, 0, y_offset); // 水平居中，纵向递增
-        y_offset += 24; // 下一按钮位置（20高 + 4间距）
+    lv_obj_t *wifi_cnt_btn = lv_label_create(wifi_cnt);
 
-        lv_obj_t *lbl_ssid = lv_label_create(btn);
-        lv_label_set_text(lbl_ssid, wifi_list[i]);
-        lv_obj_center(lbl_ssid);
-        lv_obj_set_style_text_font(lbl_ssid, &SiYuanHeiTiGoogleBan_14, 0);
-        lv_obj_set_style_text_color(lbl_ssid, lv_color_hex(0x464646), 0);
+    lv_obj_set_style_radius(wifi_cnt_btn, 10, 0); // 设置圆角
+    lv_obj_set_style_bg_color(wifi_cnt_btn, lv_color_hex(0xCCCCCC), 0); // 设置背景颜色
+    lv_obj_set_style_bg_opa(wifi_cnt_btn, LV_OPA_COVER, 0); // 设置背景透明度
+    lv_obj_set_style_text_font(wifi_cnt_btn, &SiYuanHeiTiGoogleBan_14, 0); // 设置字体
+    lv_obj_align(wifi_cnt_btn, LV_ALIGN_TOP_MID, 0, 4); // 居中对齐
+    lv_obj_set_size(wifi_cnt_btn, 140, 30); // 设置按钮大小
+    lv_label_set_text(wifi_cnt_btn, " ");
+    lv_text_align_t align = LV_TEXT_ALIGN_CENTER; // 设置文本居中对齐
 
-        lv_obj_add_flag(btn, LV_OBJ_FLAG_CLICKABLE);
-        lv_obj_add_event_cb(btn, exm_md_appear, LV_EVENT_CLICKED, (void*)wifi_list[i]);
-    }
+    lv_obj_t *wifi_lbl = lv_label_create(wifi_cnt_btn);
+    lv_label_set_text(wifi_lbl, "打开Wi-Fi");
+    lv_obj_set_style_text_font(wifi_lbl, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_align(wifi_lbl, LV_ALIGN_CENTER, -35, 0);
+    lv_obj_set_style_text_color(wifi_lbl, lv_color_hex(0x464646), 0); // 设置文字颜色
+    // 右侧开关
+    lv_obj_t * wifi_sw = lv_switch_create(wifi_cnt_btn);
+    lv_obj_set_size(wifi_sw, 40, 20);
+    lv_obj_align(wifi_sw, LV_ALIGN_CENTER, 46, 0);
 
+    lv_obj_t * lbl_md = lv_label_create(wifi_cnt);
+    lv_label_set_text(lbl_md, "正在连接...");
+    lv_obj_set_style_text_font(lbl_md, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(lbl_md, lv_color_hex(0x464646), 0);
+    lv_obj_align_to(lbl_md, wifi_cnt_btn, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 10); // 将文本对齐到按钮中心
 }
 
 

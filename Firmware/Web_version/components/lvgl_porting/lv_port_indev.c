@@ -332,7 +332,9 @@ static uint32_t keypad_get_key(void)
     if(gpio_get_level(20) == 1){
         ESP_LOGI("main","KEY20\r\n");
         return 3;
-    }//需增加陀螺仪上下甩动
+    }
+    
+    //需增加陀螺仪上下甩动
     return 0;
 }
 #endif
