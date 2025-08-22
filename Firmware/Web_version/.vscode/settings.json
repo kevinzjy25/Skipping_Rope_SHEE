@@ -1,21 +1,20 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "idf.espIdfPathWin": "/home/kevinzjy/ESP_container/v5.4.2/esp-idf",
-  "idf.pythonInstallPath": "/usr/bin/python3",
+  "idf.espIdfPathWin": "e:\\Program-Files\\ESP_idf_container\\v5.4.2\\esp-idf",
+  "idf.pythonInstallPath": "e:\\Program-Files\\ESP_idf_Tool\\tools\\idf-python\\3.11.2\\python.exe",
   "idf.openOcdConfigs": [
     "board/esp32c3-builtin.cfg"
   ],
-  "idf.portWin": "COM15",
-  "idf.toolsPathWin": "/home/kevinzjy/ESP_tools",
+  "idf.portWin": "COM1",
+  "idf.toolsPathWin": "e:\\Program-Files\\ESP_idf_Tool",
   "idf.customExtraVars": {
     "IDF_TARGET": "esp32c3"
   },
-  
-  "clangd.path": "/home/kevinzjy/ESP_tools/tools/esp-clang/esp-18.1.2_20240912/esp-clang/bin/clangd",
+  "clangd.path": "e:\\Program-Files\\ESP_idf_Tool\\tools\\esp-clang\\esp-18.1.2_20240912\\esp-clang\\bin\\clangd.exe",
   "clangd.arguments": [
     "--background-index",
-    "--query-driver=/home/kevinzjy/ESP_tools/tools/riscv32-esp-elf/esp-14.2.0_20241119/riscv32-esp-elf/bin/riscv32-esp-elf-gcc",
-    "--compile-commands-dir=${workspaceFolder}/build"
+    "--query-driver=e:\\Program-Files\\ESP_idf_Tool\\tools\\xtensa-esp-elf\\esp-14.2.0_20241119\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe",
+    "--compile-commands-dir=${workspaceFolder}\\build"
   ],
   "idf.flashType": "UART",
   "files.associations": {
@@ -63,6 +62,5 @@
     "unistd.h": "c",
     "esp_system.h": "c"
   },
-  "C_Cpp.errorSquiggles": "enabled",
-  "idf.port": "/dev/ttyACM0"
+  "C_Cpp.errorSquiggles": "enabled"
 }
