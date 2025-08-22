@@ -16,7 +16,7 @@
 #include "esp_wifi.h"
 #include "esp_eap_client.h"
 #include "esp_flash.h"
-#include "esp_timer.h" 
+#include "esp_timer.h"
 #include "esp_system.h"
 #include "esp_log.h"
 #include "esp_smartconfig.h"
@@ -29,7 +29,7 @@
 #include "my_ui.h"
 #include "nvs_flash.h"
 
-//wifi
+// wifi
 /* FreeRTOS event group to signal when we are connected & ready to make a request */
 static EventGroupHandle_t s_wifi_event_group;
 /* The event group allows multiple bits for each event,
@@ -39,30 +39,41 @@ static const int CONNECTED_BIT = BIT0;
 static const int ESPTOUCH_DONE_BIT = BIT1;
 static const char *TAG = "smartconfig";
 
-static void smartconfig_example_task(void * parm);
+static void smartconfig_example_task(void *parm);
 
-static void wifi_event_handler(void* arg, esp_event_base_t event_base,
-                                int32_t event_id, void* event_data)
+static void wifi_event_handler(void *arg, esp_event_base_t event_base,
+                               int32_t event_id, void *event_data)
 {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
+    {
         xTaskCreate(smartconfig_example_task, "smartconfig_example_task", 4096, NULL, 3, NULL);
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+    }
+    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
         esp_wifi_connect();
         xEventGroupClearBits(s_wifi_event_group, CONNECTED_BIT);
-    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+    }
+    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
+    {
         xEventGroupSetBits(s_wifi_event_group, CONNECTED_BIT);
-    } else if (event_base == SC_EVENT && event_id == SC_EVENT_SCAN_DONE) {
+    }
+    else if (event_base == SC_EVENT && event_id == SC_EVENT_SCAN_DONE)
+    {
         ESP_LOGI(TAG, "Scan done");
-    } else if (event_base == SC_EVENT && event_id == SC_EVENT_FOUND_CHANNEL) {
+    }
+    else if (event_base == SC_EVENT && event_id == SC_EVENT_FOUND_CHANNEL)
+    {
         ESP_LOGI(TAG, "Found channel");
-    } else if (event_base == SC_EVENT && event_id == SC_EVENT_GOT_SSID_PSWD) {
+    }
+    else if (event_base == SC_EVENT && event_id == SC_EVENT_GOT_SSID_PSWD)
+    {
         ESP_LOGI(TAG, "Got SSID and password");
 
         smartconfig_event_got_ssid_pswd_t *evt = (smartconfig_event_got_ssid_pswd_t *)event_data;
         wifi_config_t wifi_config;
-        uint8_t ssid[33] = { 0 };
-        uint8_t password[65] = { 0 };
-        uint8_t rvd_data[33] = { 0 };
+        uint8_t ssid[33] = {0};
+        uint8_t password[65] = {0};
+        uint8_t rvd_data[33] = {0};
 
         bzero(&wifi_config, sizeof(wifi_config_t));
         memcpy(wifi_config.sta.ssid, evt->ssid, sizeof(wifi_config.sta.ssid));
@@ -70,8 +81,9 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
 
 #ifdef CONFIG_SET_MAC_ADDRESS_OF_TARGET_AP
         wifi_config.sta.bssid_set = evt->bssid_set;
-        if (wifi_config.sta.bssid_set == true) {
-            ESP_LOGI(TAG, "Set MAC address of target AP: "MACSTR" ", MAC2STR(evt->bssid));
+        if (wifi_config.sta.bssid_set == true)
+        {
+            ESP_LOGI(TAG, "Set MAC address of target AP: " MACSTR " ", MAC2STR(evt->bssid));
             memcpy(wifi_config.sta.bssid, evt->bssid, sizeof(wifi_config.sta.bssid));
         }
 #endif
@@ -80,19 +92,23 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
         memcpy(password, evt->password, sizeof(evt->password));
         ESP_LOGI(TAG, "SSID:%s", ssid);
         ESP_LOGI(TAG, "PASSWORD:%s", password);
-        if (evt->type == SC_TYPE_ESPTOUCH_V2) {
-            ESP_ERROR_CHECK( esp_smartconfig_get_rvd_data(rvd_data, sizeof(rvd_data)) );
+        if (evt->type == SC_TYPE_ESPTOUCH_V2)
+        {
+            ESP_ERROR_CHECK(esp_smartconfig_get_rvd_data(rvd_data, sizeof(rvd_data)));
             ESP_LOGI(TAG, "RVD_DATA:");
-            for (int i=0; i<33; i++) {
+            for (int i = 0; i < 33; i++)
+            {
                 printf("%02x ", rvd_data[i]);
             }
             printf("\n");
         }
 
-        ESP_ERROR_CHECK( esp_wifi_disconnect() );
-        ESP_ERROR_CHECK( esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
+        ESP_ERROR_CHECK(esp_wifi_disconnect());
+        ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
         esp_wifi_connect();
-    } else if (event_base == SC_EVENT && event_id == SC_EVENT_SEND_ACK_DONE) {
+    }
+    else if (event_base == SC_EVENT && event_id == SC_EVENT_SEND_ACK_DONE)
+    {
         xEventGroupSetBits(s_wifi_event_group, ESPTOUCH_DONE_BIT);
     }
 }
@@ -106,117 +122,130 @@ static void initialise_wifi(void)
     assert(sta_netif);
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK( esp_wifi_init(&cfg) );
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    ESP_ERROR_CHECK( esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL) );
-    ESP_ERROR_CHECK( esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL) );
-    ESP_ERROR_CHECK( esp_event_handler_register(SC_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL) );
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_register(SC_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
 
-    ESP_ERROR_CHECK( esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK( esp_wifi_start() );
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_start());
 }
 
-static void smartconfig_example_task(void * parm)
+static void smartconfig_example_task(void *parm)
 {
     EventBits_t uxBits;
-    ESP_ERROR_CHECK( esp_smartconfig_set_type(SC_TYPE_ESPTOUCH) );
+    ESP_ERROR_CHECK(esp_smartconfig_set_type(SC_TYPE_ESPTOUCH));
     smartconfig_start_config_t cfg = SMARTCONFIG_START_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK( esp_smartconfig_start(&cfg) );
-    while (1) {
+    ESP_ERROR_CHECK(esp_smartconfig_start(&cfg));
+    while (1)
+    {
         uxBits = xEventGroupWaitBits(s_wifi_event_group, CONNECTED_BIT | ESPTOUCH_DONE_BIT, true, false, portMAX_DELAY);
-        if(uxBits & CONNECTED_BIT) {
+        if (uxBits & CONNECTED_BIT)
+        {
             ESP_LOGI(TAG, "WiFi Connected to ap");
         }
-        if(uxBits & ESPTOUCH_DONE_BIT) {
+        if (uxBits & ESPTOUCH_DONE_BIT)
+        {
             ESP_LOGI(TAG, "smartconfig over");
             esp_smartconfig_stop();
             vTaskDelete(NULL);
         }
     }
 }
-//lvgl
-static void event_handler(lv_event_t * e)
+// lvgl
+static void event_handler(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
-    lv_obj_t * obj = lv_event_get_target(e);
-    if(code == LV_EVENT_VALUE_CHANGED) {
+    lv_obj_t *obj = lv_event_get_target(e);
+    if (code == LV_EVENT_VALUE_CHANGED)
+    {
         uint32_t id = lv_btnmatrix_get_selected_btn(obj);
-        const char * txt = lv_btnmatrix_get_btn_text(obj, id);
- 
+        const char *txt = lv_btnmatrix_get_btn_text(obj, id);
+
         LV_LOG_USER("%s was pressed\n", txt);
     }
 }
-static void lv_tick_task(void *arg){
+static void lv_tick_task(void *arg)
+{
     (void)arg;
     lv_tick_inc(10);
 }
-void pin_setup(void){
+void pin_setup(void)
+{
     gpio_config_t pGPIOConfig =
-    {
-        .intr_type =GPIO_INTR_DISABLE,
-        .mode = GPIO_MODE_INPUT,
-        .pin_bit_mask =(1ULL << GPIO_NUM_20),
-        .pull_down_en=GPIO_PULLDOWN_DISABLE,
-        .pull_up_en =GPIO_PULLUP_DISABLE
-    };
+        {
+            .intr_type = GPIO_INTR_DISABLE,
+            .mode = GPIO_MODE_INPUT,
+            .pin_bit_mask = (1ULL << GPIO_NUM_20),
+            .pull_down_en = GPIO_PULLDOWN_DISABLE,
+            .pull_up_en = GPIO_PULLUP_DISABLE};
     gpio_config_t pGPIOConfig_hall =
-    {
-        .intr_type =GPIO_INTR_DISABLE,
-        .mode = GPIO_MODE_INPUT,
-        .pin_bit_mask =(1ULL << GPIO_NUM_5)|(1ULL << GPIO_NUM_4)|(1ULL << GPIO_NUM_8),
-        .pull_down_en=GPIO_PULLDOWN_DISABLE,
-        .pull_up_en =GPIO_PULLUP_ENABLE
-    };
+        {
+            .intr_type = GPIO_INTR_DISABLE,
+            .mode = GPIO_MODE_INPUT,
+            .pin_bit_mask = (1ULL << GPIO_NUM_5) | (1ULL << GPIO_NUM_4) | (1ULL << GPIO_NUM_8),
+            .pull_down_en = GPIO_PULLDOWN_DISABLE,
+            .pull_up_en = GPIO_PULLUP_ENABLE};
     gpio_config_t pGPIOConfig_motor =
-    {
-        .intr_type =GPIO_INTR_DISABLE,
-        .mode = GPIO_MODE_INPUT,
-        .pin_bit_mask =(1ULL << GPIO_NUM_9),
-        .pull_down_en=GPIO_PULLDOWN_DISABLE,
-        .pull_up_en =GPIO_PULLUP_ENABLE
-    };
-    gpio_config(&pGPIOConfig);//物理按键
-    gpio_config(&pGPIOConfig_hall);//霍尔开关1
-    gpio_config(&pGPIOConfig_motor);//震动马达
+        {
+            .intr_type = GPIO_INTR_DISABLE,
+            .mode = GPIO_MODE_INPUT,
+            .pin_bit_mask = (1ULL << GPIO_NUM_9),
+            .pull_down_en = GPIO_PULLDOWN_DISABLE,
+            .pull_up_en = GPIO_PULLUP_ENABLE};
+    gpio_config(&pGPIOConfig);       // 物理按键
+    gpio_config(&pGPIOConfig_hall);  // 霍尔开关1
+    gpio_config(&pGPIOConfig_motor); // 震动马达
 }
-
+void menu_grop_init(void)
+{
+    lv_group_t *menu_group = lv_group_create();
+    lv_group_add_obj(menu_group, btn1);
+    lv_group_add_obj(menu_group, btn2);
+    lv_group_add_obj(menu_group, btn3);
+    lv_indev_set_group(indev_keypad, menu_group);
+}
 void app_main(void)
 {
     int count = 0;
     // 初始化 NVS（必需的，因为Wi-Fi配置存储在NVS中）
-    //ESP_ERROR_CHECK(nvs_flash_init());
+    // ESP_ERROR_CHECK(nvs_flash_init());
     // 初始化 Wi-Fi
-    //initialise_wifi();
-    //lvgl初始化
+    // initialise_wifi();
+    // lvgl初始化
     lv_init();
     lv_port_disp_init();
     pin_setup();
     lv_port_indev_init();
-    //初始化lvgl按键组
-    lv_group_t *group = lv_group_create();
-    lv_indev_set_group(indev_keypad, group);
-    //定时器初始化
+    // 初始化lvgl按键组
+    menu_grop_init();
+    // 定时器初始化
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
         .name = "periodic_gui"};
     esp_timer_handle_t periodic_timer;
-    ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args,&periodic_timer));
+    ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
     my_ui();
-    while (1){
+    while (1)
+    {
         lv_task_handler();
         lv_tick_inc(10);
-        
-        if(gpio_get_level(5) == 0){
-            ESP_LOGI("main","KEY1\r\n");
+
+        if (gpio_get_level(5) == 0)
+        {
+            ESP_LOGI("main", "KEY1\r\n");
         }
-        else if(gpio_get_level(8) == 0){
-            ESP_LOGI("main","KEY2\r\n");
+        else if (gpio_get_level(8) == 0)
+        {
+            ESP_LOGI("main", "KEY2\r\n");
         }
-        else if(gpio_get_level(20) == 1){
+        else if (gpio_get_level(20) == 1)
+        {
             count++;
             show_number(lbl_cnt, count);
-            usleep(500000);
+            usleep(100000);
         }
         vTaskDelay(pdMS_TO_TICKS(20));
     }

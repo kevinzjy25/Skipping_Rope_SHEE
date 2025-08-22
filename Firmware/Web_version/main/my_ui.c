@@ -1,6 +1,7 @@
 #include "my_ui.h"
 #include "lvgl.h"
 #include "driver/gpio.h"
+#include "lv_port_indev.h"
 #include <stdio.h>
 #include <unistd.h>
 extern const lv_font_t SiYuanHeiTiGoogleBan_14;
@@ -21,6 +22,10 @@ lv_obj_t *_menu;
 lv_obj_t *lbl_cnt;
 lv_obj_t *lbl_md; // 声明标签
 lv_obj_t *lbl_ssid;
+lv_obj_t *btn1;
+lv_obj_t *btn2;
+lv_obj_t *btn3;
+
 // 新增判断函数
 int is_exam_mode_active = 0;
 
@@ -139,7 +144,7 @@ void menu(void) {
     _menu = lv_obj_create(NULL);//创建标签
     lv_obj_set_style_bg_color(_menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
 
-    lv_obj_t *btn1 = lv_label_create(_menu);//创建按钮1
+    btn1 = lv_label_create(_menu);//创建按钮1
     lv_obj_set_size(btn1, 100, 20);
     lv_obj_align(btn1, LV_ALIGN_CENTER, 0, -25);
     lv_obj_set_style_bg_color(btn1, lv_color_hex(0xCCCCCC), 0);
@@ -152,7 +157,7 @@ void menu(void) {
     lv_obj_set_style_text_font(lbl1, &SiYuanHeiTiGoogleBan_14, 0);
     lv_obj_set_style_text_color(lbl1, lv_color_hex(0x464646), 0);
 
-    lv_obj_t *btn2 = lv_label_create(_menu);//创建按钮2
+    btn2 = lv_label_create(_menu);//创建按钮2
     lv_obj_set_size(btn2, 100, 20);
     lv_obj_align(btn2, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_bg_color(btn2, lv_color_hex(0xCCCCCC), 0);
@@ -165,7 +170,7 @@ void menu(void) {
     lv_obj_set_style_text_font(lbl2, &SiYuanHeiTiGoogleBan_14, 0);
     lv_obj_set_style_text_color(lbl2, lv_color_hex(0x464646), 0);
 
-    lv_obj_t *btn3 = lv_label_create(_menu);//创建按钮3
+    btn3 = lv_label_create(_menu);//创建按钮3
     lv_obj_set_size(btn3, 100, 20);
     lv_obj_align(btn3, LV_ALIGN_CENTER, 0, 25);
     lv_obj_set_style_bg_color(btn3, lv_color_hex(0xCCCCCC), 0);
@@ -178,13 +183,13 @@ void menu(void) {
     lv_obj_set_style_text_font(lbl3, &SiYuanHeiTiGoogleBan_14, 0);
     lv_obj_set_style_text_color(lbl3, lv_color_hex(0x464646), 0);
 
-    lv_obj_add_flag(lbl1, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_flag(lbl2, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_flag(lbl3, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(btn1, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(btn2, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(btn3, LV_OBJ_FLAG_CLICKABLE);
 
-    lv_obj_add_event_cb(lbl1, pg1_btn1, LV_EVENT_CLICKED, NULL);
-    lv_obj_add_event_cb(lbl2, pg1_btn2, LV_EVENT_CLICKED, NULL);
-    lv_obj_add_event_cb(lbl3, pg1_btn3, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(btn1, pg1_btn1, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(btn2, pg1_btn2, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(btn3, pg1_btn3, LV_EVENT_CLICKED, NULL);
 
     lv_scr_load_anim(_menu,LV_SCR_LOAD_ANIM_OVER_BOTTOM,500,0,false);
 }
