@@ -1,7 +1,7 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
   "idf.espIdfPathWin": "e:\\Program-Files\\ESP_idf_container\\v5.4.2\\esp-idf",
-  "idf.pythonInstallPath": "e:\\Program-Files\\ESP_idf_Tool\\tools\\idf-python\\3.11.2\\python.exe",
+  "idf.pythonInstallPath": "/usr/bin/python3",
   "idf.openOcdConfigs": [
     "board/esp32c3-builtin.cfg"
   ],
@@ -62,5 +62,6 @@
     "unistd.h": "c",
     "esp_system.h": "c"
   },
-  "C_Cpp.errorSquiggles": "enabled"
+  "C_Cpp.errorSquiggles": "enabled",
+  "idf.port": "/dev/ttyACM0"
 }

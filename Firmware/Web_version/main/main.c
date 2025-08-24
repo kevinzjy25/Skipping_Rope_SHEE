@@ -28,7 +28,7 @@
 #include "lv_port_indev.h"
 #include "my_ui.h"
 #include "nvs_flash.h"
-
+int level = 0;//menu level
 // wifi
 /* FreeRTOS event group to signal when we are connected & ready to make a request */
 static EventGroupHandle_t s_wifi_event_group;
@@ -198,28 +198,19 @@ void pin_setup(void)
     gpio_config(&pGPIOConfig_hall);  // 霍尔开关1
     gpio_config(&pGPIOConfig_motor); // 震动马达
 }
-void menu_grop_init(void)
-{
-    lv_group_t *menu_group = lv_group_create();
-    lv_group_add_obj(menu_group, btn1);
-    lv_group_add_obj(menu_group, btn2);
-    lv_group_add_obj(menu_group, btn3);
-    lv_indev_set_group(indev_keypad, menu_group);
-}
+
 void app_main(void)
 {
-    int count = 0;
+    int count = 0; 
+    // 初始化 Wi-Fi
     // 初始化 NVS（必需的，因为Wi-Fi配置存储在NVS中）
     // ESP_ERROR_CHECK(nvs_flash_init());
-    // 初始化 Wi-Fi
     // initialise_wifi();
     // lvgl初始化
     lv_init();
     lv_port_disp_init();
     pin_setup();
     lv_port_indev_init();
-    // 初始化lvgl按键组
-    //menu_grop_init();
     // 定时器初始化
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
@@ -227,33 +218,20 @@ void app_main(void)
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
-    //my_ui();
-    lv_obj_t * btn = lv_btn_create(lv_scr_act());  // 在当前屏幕创建
-    lv_obj_center(btn);                            // 居中显示
-
-    // 按钮上的标签
-    lv_obj_t * label = lv_label_create(btn);
-    lv_label_set_text(label, "Hello LVGL");
-    lv_obj_center(label);
-    ESP_LOGI("main", "Setup complete");
+    my_ui();
     while (1)
     {
         lv_task_handler();
         lv_tick_inc(10);
 
-        if (gpio_get_level(5) == 0)
+        if (level == 0 && gpio_get_level(5) == 0)
         {
-            ESP_LOGI("main", "KEY1\r\n");
-        }
-        else if (gpio_get_level(8) == 0)
-        {
-            ESP_LOGI("main", "KEY2\r\n");
+            menu(NULL);
+            level = 1;
         }
         else if (gpio_get_level(20) == 1)
         {
-            count++;
-            show_number(lbl_cnt, count);
-            usleep(100000);
+            
         }
         vTaskDelay(pdMS_TO_TICKS(20));
     }

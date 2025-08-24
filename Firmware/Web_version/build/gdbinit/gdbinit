@@ -1,2 +1,2 @@
-source E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/gdbinit/symbols
-source E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/gdbinit/connect
+source /home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/gdbinit/symbols
+source /home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/gdbinit/connect

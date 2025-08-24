@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader-complete.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-E:/Project_2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/CMakeFiles/bootloader-complete.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

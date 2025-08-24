@@ -330,8 +330,10 @@ static uint32_t keypad_get_key(void)
 {
     /*Your code comes here*/
     if(gpio_get_level(20) == 1){
-        ESP_LOGI("main","KEY20\r\n");
-        return 3;
+        return 1;
+    }
+    if(gpio_get_level(8) == 0){
+        return 5;
     }
     
     //需增加陀螺仪上下甩动
