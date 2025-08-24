@@ -562,3 +562,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/main/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/cmake_install.cmake")
+endif()
+

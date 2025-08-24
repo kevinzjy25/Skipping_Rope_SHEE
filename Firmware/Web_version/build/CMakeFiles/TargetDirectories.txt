@@ -842,3 +842,10 @@
 /home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/main/CMakeFiles/install.dir
 /home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/main/CMakeFiles/install/local.dir
 /home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/main/CMakeFiles/install/strip.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/__idf_icm42688p.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/edit_cache.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/rebuild_cache.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/list_install_components.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/install.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/install/local.dir
+/home/kevinzjy/Project2025/Skipping_Rope_SHEE/Firmware/Web_version/build/esp-idf/icm42688p/CMakeFiles/install/strip.dir

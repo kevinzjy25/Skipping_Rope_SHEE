@@ -60,7 +60,10 @@
     "task.h": "c",
     "stdio.h": "c",
     "unistd.h": "c",
-    "esp_system.h": "c"
+    "esp_system.h": "c",
+    "icm42688p.h": "c",
+    "esp_timer.h": "c",
+    "timers.h": "c"
   },
   "C_Cpp.errorSquiggles": "enabled",
   "idf.port": "/dev/ttyACM0"

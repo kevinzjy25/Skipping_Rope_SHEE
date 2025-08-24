@@ -16,7 +16,6 @@ LV_FONT_DECLARE(SiYuanHeiTiGoogleBan_16);
 static void pg1_btn1(lv_event_t *e);
 static void pg1_btn2(lv_event_t *e);
 static void pg1_btn3(lv_event_t *e);
-static void menu(lv_event_t * e);
 lv_obj_t *main_menu; // 声明主菜单
 lv_obj_t *_menu;
 lv_obj_t *lbl_cnt;
@@ -25,6 +24,10 @@ lv_obj_t *lbl_ssid;
 lv_obj_t *btn1;
 lv_obj_t *btn2;
 lv_obj_t *btn3;
+lv_obj_t *blt_sw ;
+lv_obj_t *wifi_sw ;
+lv_obj_t *blt_md;
+lv_obj_t *wifi_md;
 
 // 新增判断函数
 int is_exam_mode_active = 0;
@@ -214,16 +217,16 @@ static void pg1_btn2(lv_event_t *e)
     lv_obj_set_style_text_color(blt_lbl, lv_color_hex(0x464646), 0); // 设置文字颜色
 
     // 右侧开关
-    lv_obj_t *blt_sw = lv_switch_create(blt_cnt_btn);
+    blt_sw = lv_switch_create(blt_cnt_btn);
     lv_obj_set_size(blt_sw, 40, 20);
     lv_obj_align(blt_sw, LV_ALIGN_CENTER, 46, 0);
     lv_group_add_obj(pg2_group, blt_sw);
 
-    lv_obj_t *lbl_md = lv_label_create(blt_cnt);
-    lv_label_set_text(lbl_md, "正在连接...");
-    lv_obj_set_style_text_font(lbl_md, &SiYuanHeiTiGoogleBan_14, 0);
-    lv_obj_set_style_text_color(lbl_md, lv_color_hex(0x464646), 0);
-    lv_obj_align_to(lbl_md, blt_cnt_btn, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 10); // 将文本对齐到按钮中心
+    blt_md = lv_label_create(blt_cnt);
+    lv_label_set_text(blt_md, " ");
+    lv_obj_set_style_text_font(blt_md, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(blt_md, lv_color_hex(0xCCCCCC), 0);
+    lv_obj_align_to(blt_md, blt_cnt_btn, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 10); // 将文本对齐到按钮中心
 }
 
 static void pg1_btn3(lv_event_t *e)
@@ -254,14 +257,14 @@ static void pg1_btn3(lv_event_t *e)
     lv_obj_align(wifi_lbl, LV_ALIGN_CENTER, -35, 0);
     lv_obj_set_style_text_color(wifi_lbl, lv_color_hex(0x464646), 0); // 设置文字颜色
     // 右侧开关
-    lv_obj_t *wifi_sw = lv_switch_create(wifi_cnt_btn);
+    wifi_sw = lv_switch_create(wifi_cnt_btn);
     lv_obj_set_size(wifi_sw, 40, 20);
     lv_obj_align(wifi_sw, LV_ALIGN_CENTER, 46, 0);
     lv_group_add_obj(pg3_group, wifi_sw);
 
-    lv_obj_t *lbl_md = lv_label_create(wifi_cnt);
-    lv_label_set_text(lbl_md, "正在连接...");
-    lv_obj_set_style_text_font(lbl_md, &SiYuanHeiTiGoogleBan_14, 0);
-    lv_obj_set_style_text_color(lbl_md, lv_color_hex(0x464646), 0);
-    lv_obj_align_to(lbl_md, wifi_cnt_btn, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 10); // 将文本对齐到按钮中心
+    wifi_md = lv_label_create(wifi_cnt);
+    lv_label_set_text(wifi_md, " ");
+    lv_obj_set_style_text_font(wifi_md, &SiYuanHeiTiGoogleBan_14, 0);
+    lv_obj_set_style_text_color(wifi_md, lv_color_hex(0xCCCCCC), 0);
+    lv_obj_align_to(wifi_md, wifi_cnt_btn, LV_ALIGN_OUT_BOTTOM_LEFT, 0, 10); // 将文本对齐到按钮中心
 }

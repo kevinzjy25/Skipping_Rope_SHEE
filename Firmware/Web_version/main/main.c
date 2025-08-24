@@ -8,10 +8,13 @@
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/timers.h"
 #include "freertos/event_groups.h"
 #include "esp_wifi.h"
 #include "esp_eap_client.h"
@@ -28,131 +31,16 @@
 #include "lv_port_indev.h"
 #include "my_ui.h"
 #include "nvs_flash.h"
-int level = 0;//menu level
-// wifi
-/* FreeRTOS event group to signal when we are connected & ready to make a request */
-static EventGroupHandle_t s_wifi_event_group;
-/* The event group allows multiple bits for each event,
-   but we only care about one event - are we connected
-   to the AP with an IP? */
-static const int CONNECTED_BIT = BIT0;
-static const int ESPTOUCH_DONE_BIT = BIT1;
-static const char *TAG = "smartconfig";
+#include "icm42688p/include/icm42688p.h"
+extern void initialise_wifi(void);
+static const char *TAG = "MAIN";
+int level = 0; // menu level
+float deg_roll;
+float deg_pitch;
+float deg_yaw;
+int blt_sw_state = 0;
+int wifi_sw_state = 0;
 
-static void smartconfig_example_task(void *parm);
-
-static void wifi_event_handler(void *arg, esp_event_base_t event_base,
-                               int32_t event_id, void *event_data)
-{
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
-    {
-        xTaskCreate(smartconfig_example_task, "smartconfig_example_task", 4096, NULL, 3, NULL);
-    }
-    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
-    {
-        esp_wifi_connect();
-        xEventGroupClearBits(s_wifi_event_group, CONNECTED_BIT);
-    }
-    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
-    {
-        xEventGroupSetBits(s_wifi_event_group, CONNECTED_BIT);
-    }
-    else if (event_base == SC_EVENT && event_id == SC_EVENT_SCAN_DONE)
-    {
-        ESP_LOGI(TAG, "Scan done");
-    }
-    else if (event_base == SC_EVENT && event_id == SC_EVENT_FOUND_CHANNEL)
-    {
-        ESP_LOGI(TAG, "Found channel");
-    }
-    else if (event_base == SC_EVENT && event_id == SC_EVENT_GOT_SSID_PSWD)
-    {
-        ESP_LOGI(TAG, "Got SSID and password");
-
-        smartconfig_event_got_ssid_pswd_t *evt = (smartconfig_event_got_ssid_pswd_t *)event_data;
-        wifi_config_t wifi_config;
-        uint8_t ssid[33] = {0};
-        uint8_t password[65] = {0};
-        uint8_t rvd_data[33] = {0};
-
-        bzero(&wifi_config, sizeof(wifi_config_t));
-        memcpy(wifi_config.sta.ssid, evt->ssid, sizeof(wifi_config.sta.ssid));
-        memcpy(wifi_config.sta.password, evt->password, sizeof(wifi_config.sta.password));
-
-#ifdef CONFIG_SET_MAC_ADDRESS_OF_TARGET_AP
-        wifi_config.sta.bssid_set = evt->bssid_set;
-        if (wifi_config.sta.bssid_set == true)
-        {
-            ESP_LOGI(TAG, "Set MAC address of target AP: " MACSTR " ", MAC2STR(evt->bssid));
-            memcpy(wifi_config.sta.bssid, evt->bssid, sizeof(wifi_config.sta.bssid));
-        }
-#endif
-
-        memcpy(ssid, evt->ssid, sizeof(evt->ssid));
-        memcpy(password, evt->password, sizeof(evt->password));
-        ESP_LOGI(TAG, "SSID:%s", ssid);
-        ESP_LOGI(TAG, "PASSWORD:%s", password);
-        if (evt->type == SC_TYPE_ESPTOUCH_V2)
-        {
-            ESP_ERROR_CHECK(esp_smartconfig_get_rvd_data(rvd_data, sizeof(rvd_data)));
-            ESP_LOGI(TAG, "RVD_DATA:");
-            for (int i = 0; i < 33; i++)
-            {
-                printf("%02x ", rvd_data[i]);
-            }
-            printf("\n");
-        }
-
-        ESP_ERROR_CHECK(esp_wifi_disconnect());
-        ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
-        esp_wifi_connect();
-    }
-    else if (event_base == SC_EVENT && event_id == SC_EVENT_SEND_ACK_DONE)
-    {
-        xEventGroupSetBits(s_wifi_event_group, ESPTOUCH_DONE_BIT);
-    }
-}
-
-static void initialise_wifi(void)
-{
-    ESP_ERROR_CHECK(esp_netif_init());
-    s_wifi_event_group = xEventGroupCreate();
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    esp_netif_t *sta_netif = esp_netif_create_default_wifi_sta();
-    assert(sta_netif);
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL));
-    ESP_ERROR_CHECK(esp_event_handler_register(SC_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
-
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_start());
-}
-
-static void smartconfig_example_task(void *parm)
-{
-    EventBits_t uxBits;
-    ESP_ERROR_CHECK(esp_smartconfig_set_type(SC_TYPE_ESPTOUCH));
-    smartconfig_start_config_t cfg = SMARTCONFIG_START_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_smartconfig_start(&cfg));
-    while (1)
-    {
-        uxBits = xEventGroupWaitBits(s_wifi_event_group, CONNECTED_BIT | ESPTOUCH_DONE_BIT, true, false, portMAX_DELAY);
-        if (uxBits & CONNECTED_BIT)
-        {
-            ESP_LOGI(TAG, "WiFi Connected to ap");
-        }
-        if (uxBits & ESPTOUCH_DONE_BIT)
-        {
-            ESP_LOGI(TAG, "smartconfig over");
-            esp_smartconfig_stop();
-            vTaskDelete(NULL);
-        }
-    }
-}
 // lvgl
 static void event_handler(lv_event_t *e)
 {
@@ -198,10 +86,115 @@ void pin_setup(void)
     gpio_config(&pGPIOConfig_hall);  // 霍尔开关1
     gpio_config(&pGPIOConfig_motor); // 震动马达
 }
+// 主动读取开关状态
+void blt_stt_check(void)
+{
+    if (blt_sw == NULL) {
+        ESP_LOGW(TAG, "blt_sw not created yet!");
+        return;
+    }
+
+    if (lv_obj_has_state(blt_sw, LV_STATE_CHECKED)) {
+        ESP_LOGI(TAG, "blt_sw is ON");
+        lv_label_set_text(blt_md, "ON");
+    } else {
+        ESP_LOGI(TAG, "blt_sw is OFF");
+        lv_label_set_text(blt_md, "OFF");
+    }
+}
+void wifi_stt_check(void)
+{
+    if (wifi_sw == NULL) {
+        ESP_LOGW(TAG, "wifi_sw not created yet!");
+        return;
+    }
+    if (lv_obj_has_state(wifi_sw, LV_STATE_CHECKED)) {
+        ESP_LOGI(TAG, "wifi_sw is ON");
+        lv_label_set_text(wifi_md, "ON");
+        ESP_ERROR_CHECK(nvs_flash_init());
+        initialise_wifi();
+    } else {
+        ESP_LOGI(TAG, "wifi_sw is OFF");
+        lv_label_set_text(wifi_md, "OFF");
+    }
+}
+// GPIO 引脚
+#define HALL1 4
+#define HALL2 5
+#define HALL3 8
+
+// 跳绳计数
+static volatile int jump_count = 0;
+
+// GPIO 顺序状态机
+typedef enum {
+    IDLE = 0,
+    STEP1,
+    STEP2,
+    STEP3
+} skp_state_t;
+
+// y 轴角度阈值（单位：度）
+#define MAX_Y_ANGLE 30.0f
+
+// 函数：轮询检测 GPIO，顺序或倒序
+void skp_cnt_task(void *arg) {
+    skp_state_t state = IDLE;
+    int seq[3] = {HALL1, HALL2, HALL3};
+    int rev[3] = {HALL3, HALL2, HALL1};
+    bool counting_started = false;
+    TickType_t last_jump_tick = 0;
+
+    while (1) {
+        // --- 顺序/倒序状态机 ---
+        switch(state) {
+            case IDLE:
+                if (gpio_get_level(seq[0]) == 0 || gpio_get_level(rev[0]) == 0) {
+                    state = STEP1;
+                }
+                break;
+            case STEP1:
+                if (gpio_get_level(seq[1]) == 0 || gpio_get_level(rev[1]) == 0) state = STEP2;
+                break;
+            case STEP2:
+                if (gpio_get_level(seq[2]) == 0 || gpio_get_level(rev[2]) == 0) state = STEP3;
+                break;
+            case STEP3:
+                // --- 完成一次跳绳 ---
+                Attitude_t att;
+                ICM42688_AttitudeUpdate(&att);
+
+                // y 轴角度限制检测
+                if (fabs(att.pitch) <= MAX_Y_ANGLE) {
+                    jump_count++;
+                    last_jump_tick = xTaskGetTickCount();
+                    if (!counting_started) {
+                        counting_started = true;
+                        ESP_LOGI(TAG, "开始计数");
+                    }
+                }
+                state = IDLE;
+                break;
+        }
+
+        // --- 检测 1 秒无跳绳事件 ---
+        if (counting_started && (xTaskGetTickCount() - last_jump_tick) > pdMS_TO_TICKS(1000)) {
+            ESP_LOGI(TAG, "计数完成，本次跳绳总数: %d", jump_count);
+            counting_started = false;
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(5)); // 5ms 轮询
+    }
+}
+
+// 初始化计数任务
+void skp_cnt_init() {
+    xTaskCreate(skp_cnt_task, "skp_cnt_task", 2048, NULL, 10, NULL);
+}
+
 
 void app_main(void)
 {
-    int count = 0; 
     // 初始化 Wi-Fi
     // 初始化 NVS（必需的，因为Wi-Fi配置存储在NVS中）
     // ESP_ERROR_CHECK(nvs_flash_init());
@@ -211,6 +204,19 @@ void app_main(void)
     lv_port_disp_init();
     pin_setup();
     lv_port_indev_init();
+    skp_cnt_init(); // 初始化跳绳计数任务
+    // ICM42688P 初始化
+    if (ICM42688_Init(I2C_NUM_0, 0, 1) != ESP_OK)
+    {
+        printf("ICM42688 init failed!\n");
+        return;
+    }
+    else
+    {
+        printf("ICM42688 init success!\n");
+    }
+
+    Attitude_t att;
     // 定时器初始化
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
@@ -221,18 +227,20 @@ void app_main(void)
     my_ui();
     while (1)
     {
+        ICM42688_AttitudeUpdate(&att);
         lv_task_handler();
         lv_tick_inc(10);
+        deg_roll = att.roll;
+        deg_pitch = att.pitch;
+        deg_yaw = att.yaw;
 
         if (level == 0 && gpio_get_level(5) == 0)
         {
             menu(NULL);
             level = 1;
         }
-        else if (gpio_get_level(20) == 1)
-        {
-            
-        }
+        blt_stt_check();
+        wifi_stt_check();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
