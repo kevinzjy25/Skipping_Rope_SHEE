@@ -2,6 +2,7 @@
 #include "lvgl.h"
 #include "driver/gpio.h"
 #include "lv_port_indev.h"
+#include "esp_log.h"
 #include <stdio.h>
 #include <unistd.h>
 extern const lv_font_t SiYuanHeiTiGoogleBan_14;
@@ -66,6 +67,7 @@ void show_number(lv_obj_t *lbl, int value)//数位补足函数
 
 void my_ui(void){
     main_menu = lv_scr_act();//设为起始页
+    ESP_LOGI("my_ui", "UI initialized");
     lv_obj_set_style_bg_color(main_menu, lv_color_hex(0x001d3d), LV_PART_MAIN);//设置背景颜色
 
     lbl_cnt = lv_label_create(main_menu);//创建标签
