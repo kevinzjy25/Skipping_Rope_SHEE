@@ -219,7 +219,7 @@ void app_main(void)
     pin_setup();
     lv_port_indev_init();
     // 初始化lvgl按键组
-    menu_grop_init();
+    //menu_grop_init();
     // 定时器初始化
     const esp_timer_create_args_t periodic_timer_args = {
         .callback = &lv_tick_task,
