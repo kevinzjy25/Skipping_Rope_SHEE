@@ -227,7 +227,12 @@ void app_main(void)
     esp_timer_handle_t periodic_timer;
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
-    my_ui();
+    //my_ui();
+    lv_obj_t * wifi_cnt = lv_obj_create(NULL);
+    lv_obj_set_style_bg_color(wifi_cnt, lv_color_hex(0x001d3d), LV_PART_MAIN);
+    lv_scr_load_anim(wifi_cnt,LV_SCR_LOAD_ANIM_OVER_LEFT,500,0,false);
+    
+    lv_obj_t *wifi_cnt_btn = lv_label_create(wifi_cnt);
     while (1)
     {
         lv_task_handler();
