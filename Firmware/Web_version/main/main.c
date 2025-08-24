@@ -228,13 +228,12 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10 * 1000));
     //my_ui();
-    lv_obj_t * btn = lv_btn_create(lv_scr_act());  // 在当前屏幕创建
-    lv_obj_center(btn);                            // 居中显示
+    lv_obj_t * wifi_cnt = lv_obj_create(NULL);
+    lv_obj_set_style_bg_color(wifi_cnt, lv_color_hex(0x001d3d), LV_PART_MAIN);
+    lv_scr_load_anim(wifi_cnt,LV_SCR_LOAD_ANIM_OVER_LEFT,500,0,false);
+    
 
-    // 按钮上的标签
-    lv_obj_t * label = lv_label_create(btn);
-    lv_label_set_text(label, "Hello LVGL");
-    lv_obj_center(label);
+    lv_obj_t *wifi_cnt_btn = lv_label_create(wifi_cnt);
     while (1)
     {
         lv_task_handler();
