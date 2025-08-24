@@ -85,7 +85,7 @@ void my_ui(void){
     lv_obj_set_style_text_font(lbl_md, &SiYuanHeiTiGoogleBan_16, 0);
     lv_obj_align(lbl_md, LV_ALIGN_BOTTOM_LEFT, 0, 0);
     lv_obj_add_flag(main_menu, LV_OBJ_FLAG_CLICKABLE);
-    
+    lv_scr_load_anim(main_menu,LV_SCR_LOAD_ANIM_OVER_BOTTOM,500,0,false);
 }
 /*static void menu(lv_event_t * e) {
     printf("menu\n");
