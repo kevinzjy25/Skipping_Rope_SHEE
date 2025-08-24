@@ -235,6 +235,7 @@ void app_main(void)
     lv_obj_t * label = lv_label_create(btn);
     lv_label_set_text(label, "Hello LVGL");
     lv_obj_center(label);
+    ESP_LOGI("main", "Setup complete");
     while (1)
     {
         lv_task_handler();
