@@ -1,0 +1,4 @@
+-- Building ESP-IDF components for target esp32c3
+NOTICE: Processing 1 dependencies:
+NOTICE: [1/1] idf (5.4.2)
+-- Configuring incomplete, errors occurred!

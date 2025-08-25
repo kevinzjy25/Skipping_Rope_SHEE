@@ -215,8 +215,8 @@ static void st7735s_set_orientation(uint8_t orientation)
         Landscape: 0xA8 = ST77XX_MADCTL_MY | ST77XX_MADCTL_MV | ST77XX_MADCTL_BGR
         Remark: "inverted" is ignored here
     */
-    uint8_t data[] = {0xC8, 0xC8, 0xA8, 0xA8};
-
+    //uint8_t data[] = {0xC8, 0xC8, 0xA8, 0xA8};
+	uint8_t data[] = {0x08, 0x08, 0x68, 0x68};
     ESP_LOGD(TAG, "0x36 command value: 0x%02X", data[orientation]);
 
     st7735s_send_cmd(ST7735_MADCTL);

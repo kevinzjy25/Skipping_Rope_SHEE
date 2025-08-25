@@ -5,6 +5,11 @@ idf_component_register(SRCS "SiYuanHeiTiGoogleBan_16.c" "SiYuanHeiTiGoogleBan_68
                              lvgl_porting
                              esp_wifi
                              nvs_flash
-                             wpa_supplicant)
+                             wpa_supplicant
+                             esp_netif
+                             esp_event 
+                             driver 
+                             bt
+                             )
 
 

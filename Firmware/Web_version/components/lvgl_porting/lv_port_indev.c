@@ -16,7 +16,8 @@
 /*********************
  *      DEFINES
  *********************/
-
+extern bool icm42688p_up;
+extern bool icm42688p_down;
 /**********************
  *      TYPEDEFS
  **********************/
@@ -330,11 +331,9 @@ static uint32_t keypad_get_key(void)
 {
     /*Your code comes here*/
     if(gpio_get_level(20) == 1){
-        return 1;
-    }
-    if(gpio_get_level(8) == 0){
         return 5;
     }
+    
     
     //需增加陀螺仪上下甩动
     return 0;

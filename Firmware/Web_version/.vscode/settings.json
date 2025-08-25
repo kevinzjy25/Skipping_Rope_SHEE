@@ -63,7 +63,17 @@
     "esp_system.h": "c",
     "icm42688p.h": "c",
     "esp_timer.h": "c",
-    "timers.h": "c"
+    "timers.h": "c",
+    "complex": "c",
+    "charconv": "c",
+    "optional": "c",
+    "ratio": "c",
+    "system_error": "c",
+    "functional": "c",
+    "tuple": "c",
+    "type_traits": "c",
+    "utility": "c",
+    "st7735s.h": "c"
   },
   "C_Cpp.errorSquiggles": "enabled",
   "idf.port": "/dev/ttyACM0"
